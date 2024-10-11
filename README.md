@@ -9,7 +9,6 @@ A web application to calculate and manage GPA using Streamlit and SQLite.
 - [Usage](#usage)
 - [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
 
@@ -48,3 +47,7 @@ gpa-calculator/
 - Flask
 - WTForms
 - Schedule
+
+
+## Acknowledgements
+The creator of this application is legally not responsible for any uses of the source code or the development of source code itself.
