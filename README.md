@@ -27,4 +27,4 @@ The **GPA Calculator Server Signup** project is designed to simplify the process
 - **Input Validation**: Ensures data integrity and provides user feedback.
 
 ## Usage
-[ https://gpacalculatorfisd.pythonanywhere.com/
+https://gpacalculatorfisd.pythonanywhere.com/
