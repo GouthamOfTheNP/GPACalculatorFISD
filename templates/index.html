@@ -1,1 +1,20 @@
-
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<title>GPA Server</title>
+	<link rel="stylesheet" type="text/css" href="../static/styles.css">
+</head>
+<body>
+	<h1>GPA Calculator Server Signup</h1>
+	<p>Fill in the form and click the button to sign up for your biweekly GPA reminder.</p>
+    <form method="post" action="/">
+	    {{ user_form.username.label }} {{user_form.username }} <br>
+	    {{ user_form.password.label }} {{ user_form.password }} <br>
+	    {{ user_form.email.label }} {{ user_form.email }} <br>
+	    {{ user_form.password_change }} {{ user_form.password_change.label }} <br>
+	    {{ user_form.submit }} <br>
+	    {{ error_code }}
+    </form>
+</body>
+</html>
