@@ -1,6 +1,6 @@
 # GPA Calculator Server Signup
 
-A web application to calculate and manage GPA using Streamlit and SQLite.
+A web application to calculate and manage GPA using Flask and SQLite.
 
 ## Table of Contents
 
