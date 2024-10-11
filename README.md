@@ -29,16 +29,17 @@ The **GPA Calculator Server Signup** project is designed to simplify the process
 https://gpacalculatorfisd.pythonanywhere.com/
 
 ## Project Structure
-gpa-calculator/\n
-├── LICENSE\n
-├── README.md\n
-├── get_request_session.py  \n
-├── gpa_calc.py\n
-├── main.py\n
-├── static/\n
-    └── styles.css\n
-└── templates/\n
-    └── index.html\n
+gpa-calculator/
+
+├── LICENSE
+├── README.md
+├── get_request_session.py
+├── gpa_calc.py
+├── main.py
+├── static/
+    └── styles.css
+└── templates/
+    └── index.html
 
 ## Technologies Used
 
