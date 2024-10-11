@@ -35,5 +35,4 @@ To run this project locally, follow these steps:
 
    ```bash
    git clone https://github.com/yourusername/gpa-calculator.git
-   cd gpa-calculator](https://github.com/GouthamOfTheNP/GPACalculatorFISD.git)
    ```
