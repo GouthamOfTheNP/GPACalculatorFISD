@@ -6,7 +6,6 @@ A web application to calculate and manage GPA using Streamlit and SQLite.
 
 - [Overview](#overview)
 - [Features](#features)
-- [Installation](#installation)
 - [Usage](#usage)
 - [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
@@ -27,12 +26,5 @@ The **GPA Calculator Server Signup** project is designed to simplify the process
 - **Record Management**: View, update, and delete GPA records.
 - **Input Validation**: Ensures data integrity and provides user feedback.
 
-## Installation
-
-To run this project locally, follow these steps:
-
-1. **Clone the repository**:
-
-   ```bash
-   git clone https://github.com/yourusername/gpa-calculator.git](https://github.com/GouthamOfTheNP/GPACalculatorFISD.git)](https://github.com/GouthamOfTheNP/GPACalculatorFISD.git)
-   ```
+## Usage
+[ https://gpacalculatorfisd.pythonanywhere.com/
