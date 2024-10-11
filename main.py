@@ -8,6 +8,8 @@ from flask import render_template, Flask, request
 from flask.views import MethodView
 from wtforms import Form, StringField, SubmitField, BooleanField
 from wtforms.validators import DataRequired
+import threading
+import time
 
 app = Flask(__name__)
 
@@ -91,6 +93,16 @@ class MainPage(MethodView):
 connection.commit()
 
 schedule.every().day.at("06:00").do(daily_check, cursor)
+
+
+def run_schedule():
+	while True:
+		schedule.run_pending()
+		time.sleep(60)
+
+
+thread = threading.Thread(target=run_schedule)
+thread.start()
 
 connection.close()
 
