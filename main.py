@@ -13,44 +13,68 @@ import time
 
 app = Flask(__name__)
 
-connection = sqlite3.connect("students.db")
-cursor = connection.cursor()
-cursor.execute("CREATE TABLE IF NOT EXISTS students"
-               "(username text, password text, date date, email text)")
+
+def adapt_date(date):
+	return date.isoformat()
+
+
+def convert_date(date_string):
+	return datetime.datetime.strptime(date_string, '%Y-%m-%d').date()
+
+
+sqlite3.register_adapter(datetime.date, adapt_date)
+sqlite3.register_converter("DATE", convert_date)
+
+
+# Database setup
+def get_db_connection():
+	connection = sqlite3.connect("students.db")
+	connection.row_factory = sqlite3.Row
+	return connection
+
+
+def create_students_table():
+	with get_db_connection() as connection:
+		cursor = connection.cursor()
+		cursor.execute("CREATE TABLE IF NOT EXISTS students"
+		               "(username text, password text, date date, email text)")
+		connection.commit()
+
+create_students_table()
 
 
 def value_exists(username):
-	connection = sqlite3.connect("students.db")
-	cursor = connection.cursor()
-	cursor.execute('SELECT 1 FROM students WHERE username = ?', (username,))
-	connection.commit()
-	return cursor.fetchone() is not None
+	with get_db_connection() as connection:
+		cursor = connection.cursor()
+		cursor.execute('SELECT 1 FROM students WHERE username = ?', (username,))
+		return cursor.fetchone() is not None
+
 
 def daily_check():
-	connection = sqlite3.connect("students.db")
-	cursor = connection.cursor()
-	cursor.execute("SELECT * FROM students")
-	students = cursor.fetchall()
-	for student in students:
-		username = student[0]
-		password = student[1]
-		receiver_email = student[3]
-		username_sender = os.getenv("USERNAME_SENDER")
-		password_sender = os.getenv("PASSWORD_SENDER")
-		subject = "Current Weighted and Unweighted GPA"
-		body = do_get(username, password)
-		date = student[2]
-		if (datetime.date.today() - date).days == 0:
-			smpy.send_gmail(subject, body, receiver_email, username_sender, password_sender)
-	connection.commit()
+	with get_db_connection() as connection:
+		cursor = connection.cursor()
+		cursor.execute("SELECT * FROM students")
+		students = cursor.fetchall()
+		for student in students:
+			username = student['username']
+			password = student['password']
+			receiver_email = student['email']
+			username_sender = os.getenv("USERNAME_SENDER")
+			password_sender = os.getenv("PASSWORD_SENDER")
+			subject = "Current Weighted and Unweighted GPA"
+			body = do_get(username, password)
+			date = datetime.datetime.strptime(student['date'], '%Y-%m-%d').date()
+			if (datetime.date.today() - date).days == 0:
+				smpy.send_gmail(subject, body, receiver_email, username_sender, password_sender)
 
 
 def add_student(username, password, email):
-	connection = sqlite3.connect("students.db")
-	cursor = connection.cursor()
-	cursor.execute(
-	f"INSERT INTO students VALUES ('{username}', '{password}', '{datetime.date.today()}', '{email}')")
-	connection.commit()
+	with get_db_connection() as connection:
+		cursor = connection.cursor()
+		cursor.execute(
+			"INSERT INTO students (username, password, date, email) VALUES (?, ?, ?, ?)",
+			(username, password, datetime.date.today(), email))
+		connection.commit()
 
 
 class UserForm(Form):
@@ -65,6 +89,7 @@ class MainPage(MethodView):
 	def get(self):
 		user_form = UserForm()
 		return render_template('index.html', user_form=user_form)
+
 	def post(self):
 		user_form = UserForm(request.form)
 		username = str(user_form.username.data)
@@ -76,6 +101,7 @@ class MainPage(MethodView):
 			do_get(username, password)
 			if not password_change and value_exists(username):
 				raise KeyError
+			add_student(username, password, email)
 		except NameError:
 			error_code = "User does not exist in HAC"
 		except KeyError:
@@ -86,13 +112,10 @@ class MainPage(MethodView):
 			print(e)
 			error_code = "An error occurred while signing up. Please try again."
 		finally:
-			add_student(username, password, email)
 			return render_template("index.html", user_form=user_form, error_code=error_code)
 
 
-connection.commit()
-
-schedule.every().day.at("06:00").do(daily_check, cursor)
+schedule.every().day.at("06:00").do(daily_check)
 
 
 def run_schedule():
@@ -100,11 +123,9 @@ def run_schedule():
 		schedule.run_pending()
 		time.sleep(60)
 
-
-thread = threading.Thread(target=run_schedule)
+# Start the scheduling in a separate thread
+thread = threading.Thread(target=run_schedule, daemon=True)
 thread.start()
-
-connection.close()
 
 if __name__ == "__main__":
 	app.add_url_rule('/', view_func=MainPage.as_view('index'))
