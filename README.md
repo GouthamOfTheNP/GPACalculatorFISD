@@ -32,14 +32,23 @@ https://gpacalculatorfisd.pythonanywhere.com/
 gpa-calculator/
 
 ├── LICENSE
+
 ├── README.md
+
 ├── get_request_session.py
+
 ├── gpa_calc.py
+
 ├── main.py
+
 ├── static/
+
     └── styles.css
+
 └── templates/
+
     └── index.html
+
 
 ## Technologies Used
 
