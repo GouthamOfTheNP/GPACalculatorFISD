@@ -35,10 +35,10 @@ gpa-calculator/ <br>
 ├── get_request_session.py <br>
 ├── gpa_calc.py <br>
 ├── main.py <br>
-├── static/
-<br>    └── styles.css
+├── static/ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;└── styles.css <br>
 └── templates/ <br>
-<br>    └── index.html <br>
+&nbsp;&nbsp;&nbsp;&nbsp;└── index.html <br>
 
 
 ## Technologies Used
