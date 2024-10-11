@@ -19,7 +19,7 @@ The **GPA Calculator Server Signup** project is designed to simplify the process
 
 ## Features
 
-- **User-Friendly Interface**: Intuitive design that makes it easy to navigate.
+- **User-Friendly Interface**: Intuitive design that makes navigating easy.
 - **Real-Time GPA Calculation**: Instant feedback on GPA based on user input.
 - **Data Storage**: Securely save records using SQLite for easy access.
 - **Responsive Design**: Access the application on any device.
@@ -28,3 +28,23 @@ The **GPA Calculator Server Signup** project is designed to simplify the process
 
 ## Usage
 https://gpacalculatorfisd.pythonanywhere.com/
+
+## Project Structure
+gpa-calculator/
+├── LICENSE
+├── README.md
+├── get_request_session.py  
+├── gpa_calc.py
+├── main.py
+├── static/
+    └── styles.css
+└── templates/
+    └── index.html
+
+## Technologies Used
+
+- SQLite
+- SendEmailPy3
+- Flask
+- WTForms
+- Schedule
