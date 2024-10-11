@@ -1,0 +1,100 @@
+h1, h3 {
+    margin-bottom: 20px;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+label {
+    margin-top: 10px;
+    display: inline-block;
+}
+
+input[type=text], input[type=submit] {
+    margin-top: 10px;
+}
+
+body {
+    color: #2c3e50;
+    background-color: #ecf0f1;
+    margin: 20px;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+a {
+    color: teal;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: darkcyan;
+}
+
+input[type=text], input[type=submit] {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #cccccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+input[type=text]:focus, input[type=submit]:focus {
+    outline: none;
+    border-color: #66afe9;
+    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+input[type=submit] {
+    background-color: #4a7c59;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type=submit]:hover {
+    background-color:#3a5d47;
+}
+
+input[type=submit]:focus {
+    outline: none;
+    background-color: forestgreen;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        color: #e0e0e0;
+        background-color: #1b1b1e;
+    }
+
+    a:link {
+        all: unset;
+        --theme-link-color: #f0f4ef !important;
+        cursor: pointer;
+        display: inline;
+        text-decoration: underline;
+    }
+    a:visited {
+        --theme-link-color-visited: #4f2dbf !important
+    }
+
+    a:hover {
+        color: #a6c5e0;
+    }
+
+    p, label {
+        color: #e0e0e0;
+    }
+    input[type=submit] {
+        background-color: #3a3f44;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    input[type=submit]:hover {
+        background-color:#2a2d30;
+    }
+}
