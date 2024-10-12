@@ -66,14 +66,16 @@ def daily_check():
 			date = datetime.datetime.strptime(student['date'], '%Y-%m-%d').date()
 			if (datetime.date.today() - date).days == 0:
 				smpy.send_gmail(subject, body, receiver_email, username_sender, password_sender)
+				new_date = (date + datetime.timedelta(days=14)).strftime('%Y-%m-%d')
+				cursor.execute("UPDATE students SET date = ? WHERE username = ?", (new_date, username))
 
 
 def add_student(username, password, email):
 	with get_db_connection() as connection:
 		cursor = connection.cursor()
 		cursor.execute(
-			"INSERT INTO students (username, password, date, email) VALUES (?, ?, ?, ?)",
-			(username, password, datetime.date.today(), email))
+			"INSERT INTO students (username, password, date, email) VALUES (?, ?, ?, ?)",(username,
+			    password, (datetime.date.today() + datetime.timedelta(days=14)).strftime("%Y-%m-%d"), email))
 		connection.commit()
 
 
@@ -98,7 +100,7 @@ class MainPage(MethodView):
 		password_change = bool(user_form.password_change.data)
 		error_code = "Successfully registered"
 		try:
-			do_get(username, password)
+			print(do_get(username, password))
 			if not password_change and value_exists(username):
 				raise KeyError
 			add_student(username, password, email)
@@ -127,6 +129,7 @@ def run_schedule():
 thread = threading.Thread(target=run_schedule, daemon=True)
 thread.start()
 
+app.add_url_rule('/', view_func=MainPage.as_view('main_page'))
+
 if __name__ == "__main__":
-	app.add_url_rule('/', view_func=MainPage.as_view('index'))
 	app.run(debug=True)
