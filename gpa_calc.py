@@ -70,14 +70,14 @@ def do_get(username, password):
 
 		grades = [float(i) for i in grades if i != "0.00" and i != ""]
 
-		unweighted_gpa_list = [(4.0 - ((100 - int(round(float(j)))) * 0.1)) for j in grades if j != ""]
-		weighted_gpa_list = [float((weighted_list[k]) - (100 - int(round(float(weighted_list[k + 1])))) * 0.1) for k in
+		unweighted_gpa_list = [(4.0 if j >= 90 else 3.0 if j >= 80 else 2.0 if j >= 70 else 0) for j in grades if j != ""]
+		weighted_gpa_list = [float((weighted_list[k]) - (100 - float(weighted_list[k + 1])) * 0.1) for k in
 		                     range(0, len(weighted_list), 2)]
 		unweighted_gpa = (unweighted_gpa_parsed + sum(unweighted_gpa_list) / len(unweighted_gpa_list))/2 \
 			if unweighted_gpa_parsed != 0 else sum(unweighted_gpa_list) / len(unweighted_gpa_list)
 		weighted_gpa = (weighted_gpa_parsed + sum(weighted_gpa_list) / len(weighted_gpa_list))/2 \
 			if weighted_gpa_parsed != 0 else sum(weighted_gpa_list) / len(weighted_gpa_list)
-		return f'''Unweighted GPA: {unweighted_gpa}\nWeighted GPA: {weighted_gpa}'''
+		return f'''Unweighted GPA: {unweighted_gpa} | Weighted GPA: {weighted_gpa}'''
 	except ArithmeticError as e:
 		print(e)
 		raise NameError("Invalid username or password")

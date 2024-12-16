@@ -6,7 +6,7 @@ import os
 from gpa_calc import do_get
 from flask import render_template, Flask, request
 from flask.views import MethodView
-from wtforms import Form, StringField, SubmitField, BooleanField
+from wtforms import Form, StringField, SubmitField, BooleanField, PasswordField
 from wtforms.validators import DataRequired
 import threading
 import time
@@ -81,7 +81,7 @@ def add_student(username, password, email):
 
 class UserForm(Form):
 	username = StringField("Username:", validators=[DataRequired()])
-	password = StringField("Password:", validators=[DataRequired()])
+	password = PasswordField("Password:", validators=[DataRequired()])
 	email = StringField("Email:", validators=[DataRequired()])
 	password_change = BooleanField("I want to change my password")
 	submit = SubmitField("Submit")
@@ -99,8 +99,10 @@ class MainPage(MethodView):
 		email = str(user_form.email.data)
 		password_change = bool(user_form.password_change.data)
 		error_code = "Successfully registered"
+		gpa = "N/A"
 		try:
 			print(do_get(username, password))
+			gpa = str(do_get(username, password))
 			if not password_change and value_exists(username):
 				raise KeyError
 			add_student(username, password, email)
@@ -114,7 +116,7 @@ class MainPage(MethodView):
 			print(e)
 			error_code = "An error occurred while signing up. Please try again."
 		finally:
-			return render_template("index.html", user_form=user_form, error_code=error_code)
+			return render_template("index.html", user_form=user_form, error_code=error_code, gpa=gpa)
 
 
 schedule.every().day.at("06:00").do(daily_check)
