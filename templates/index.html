@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>GPA Server</title>
 	<link rel="stylesheet" type="text/css" href="../static/styles.css">
+	<link rel='icon' href="{{ url_for('static', filename='favicon.ico') }}" type='image/x-icon'>
 </head>
 <body>
 	<h1>GPA Calculator Server Signup</h1>
@@ -14,7 +15,8 @@
 	    {{ user_form.email.label }} {{ user_form.email }} <br>
 	    {{ user_form.password_change }} {{ user_form.password_change.label }} <br>
 	    {{ user_form.submit }} <br>
-	    {{ error_code }}
+	    {{ error_code }} <br>
+	    {{ gpa }}
     </form>
 </body>
 </html>
