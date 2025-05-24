@@ -22,6 +22,13 @@ def do_get(username, password):
 			parser3 = BeautifulSoup(transcript_page_content, "lxml")
 			weighted_gpa_parsed = parser3.find(id="plnMain_rpTranscriptGroup_lblGPACum1").text
 			unweighted_gpa_parsed = parser3.find(id="plnMain_rpTranscriptGroup_lblGPACum2").text
+			try:
+				weighted_gpa_parsed = float(weighted_gpa_parsed)
+				unweighted_gpa_parsed = float(unweighted_gpa_parsed)
+			except Exception as e:
+				print(e)
+				weighted_gpa_parsed = 0;
+				unweighted_gpa_parsed = 0;
 
 		grades = []
 		names = []
@@ -70,9 +77,9 @@ def do_get(username, password):
 
 		grades = [float(i) for i in grades if i != "0.00" and i != ""]
 
-		unweighted_gpa_list = [(4.0 if j >= 90 else 3.0 if j >= 80 else 2.0 if j >= 70 else 0) for j in grades if j != ""]
-		weighted_gpa_list = [float((weighted_list[k]) - (100 - float(weighted_list[k + 1])) * 0.1) for k in
-		                     range(0, len(weighted_list), 2)]
+		unweighted_gpa_list = [(4.0 if round(j) >= 90 else 3.0 if round(j) >= 80 else 2.0 if round(j) >= 70 else 0) for j in grades if j != ""]
+		weighted_gpa_list = [float((weighted_list[k]) - (100 - round(float(weighted_list[k + 1]))) * 0.1) for k in range(0, len(weighted_list), 2)]
+
 		unweighted_gpa = (unweighted_gpa_parsed + sum(unweighted_gpa_list) / len(unweighted_gpa_list))/2 \
 			if unweighted_gpa_parsed != 0 else sum(unweighted_gpa_list) / len(unweighted_gpa_list)
 		weighted_gpa = (weighted_gpa_parsed + sum(weighted_gpa_list) / len(weighted_gpa_list))/2 \
